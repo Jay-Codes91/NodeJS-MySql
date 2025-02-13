@@ -1,13 +1,14 @@
 import express from 'express';
-import { getAll, getOne } from '../controllers/personas.controllers.js';
+import { getAll, getOne, postPersonas } from '../controllers/personas.controllers.js';
+import { verificarToken } from '../security/authorization.js';
 
 const router = express.Router();
 
-router.get('/', getAll);
+router.get('/', verificarToken, getAll);
 
 router.get('/:id', getOne);
 
-router.post('/');
+router.post('/', postPersonas);
 
 router.put('/:id');
 

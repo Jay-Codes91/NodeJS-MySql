@@ -1,4 +1,5 @@
 import {pool} from '../database/conexion.js';
+import bcrypt, { hash } from "bcrypt";
 
 export const getAll = async (req, res) => {
   
@@ -30,3 +31,24 @@ export const getOne = async (req, res) => {
     });
   }
 };
+
+export const postPersonas = async (req, res) => {
+  try {
+    const { nombre, apellido, edad, pass } = req.body;
+    const passEncript = await bcrypt.hash(pass, 10);
+    
+    const [rows] = await pool.query(
+      "INSERT INTO persona(nombre, apellido, edad, pass) VALUES(?, ?, ?, ?)",
+      [nombre, apellido, edad, passEncript]
+    );
+    const msj = "Persona agregada con éxito";
+    res.send({ msj });
+  } catch (error) {
+    return res.status(500).json({
+     error
+    });
+  }
+  
+  
+}
+
