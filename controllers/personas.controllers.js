@@ -1,11 +1,11 @@
-import {pool} from '../database/conexion.js';
 import bcrypt, { hash } from "bcrypt";
+import { Persona } from '../models/persona.js';
 
 export const getAll = async (req, res) => {
   
   try {
-   const result= await pool.query("SELECT * from persona");
-   res.json(result[0]);
+   const result= await Persona.findAll();
+   res.json(result);
       
   } catch (err) {
     res.status(500).send(err);
@@ -13,21 +13,23 @@ export const getAll = async (req, res) => {
 };
 
 export const getOne = async (req, res) => {
-  
+  const idP = req.params.id;
   try {
-    const [rows] = await pool.query("SELECT * FROM persona WHERE id = ?", [
-      req.params.id,
-    ]);
-    if (rows.length <= 0) {
+    const idPersona = await Persona.findOne({
+      where:{
+        id: idP
+      }
+    });
+    if (idPersona === null) {
       return res.status(400).json({
-        request: `La persona con el id ${req.params.id} no existe en la base de datos`,
+        request: `La persona con el id ${idP} no existe en la base de datos`,
       });
     }
 
-    res.json(rows[0]);
+    res.json(idPersona);
   } catch (error) {
     return res.status(500).json({
-      msj: "Algo malo ha pasado",
+      msj: error.message
     });
   }
 };
@@ -37,18 +39,22 @@ export const postPersonas = async (req, res) => {
     const { nombre, apellido, edad, pass } = req.body;
     const passEncript = await bcrypt.hash(pass, 10);
     
-    const [rows] = await pool.query(
-      "INSERT INTO persona(nombre, apellido, edad, pass) VALUES(?, ?, ?, ?)",
-      [nombre, apellido, edad, passEncript]
-    );
+    const persona = await Persona.create({
+      nombre: nombre,
+      apellido: apellido,
+      edad: edad,
+      pass: passEncript
+    });
+    
     const msj = "Persona agregada con éxito";
-    res.send({ msj });
+    res.status(201).json({
+      msj: msj,
+      data: persona
+    });
+    
   } catch (error) {
     return res.status(500).json({
      error
     });
   }
-  
-  
 }
-

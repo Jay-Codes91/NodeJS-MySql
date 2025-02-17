@@ -17,7 +17,7 @@ try{
     app.listen(puerto, ()=> {console.log("Iniciando en el puerto: " + puerto);});
 }
 catch(err) {
-    console.log(err);
+    console.log(err.message);
     
 }
 
