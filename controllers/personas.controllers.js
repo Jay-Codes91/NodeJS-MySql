@@ -58,3 +58,53 @@ export const postPersonas = async (req, res) => {
     });
   }
 }
+
+export const putPersonas = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const {nombre, apellido, edad, pass} = req.body;
+
+    const persona = await Persona.update({
+      nombre: nombre,
+      apellido: apellido,
+      edad: edad,
+      pass: pass
+    },
+    {
+      where: {
+        id: id
+      }
+    }
+  );
+    
+    const msj = "Se ha actualizado con éxito";
+    res.status(200).json({message: msj});
+    
+  } catch (error) {
+    return res.status(500).json({
+     msj: error.message
+    });
+  }
+}
+
+export const deleteOne = async (req, res) => {
+  const idP = req.params.id;
+  try {
+    const idPersona = await Persona.destroy({
+      where:{
+        id: idP
+      }
+    });
+    if (idPersona === null) {
+      return res.status(400).json({
+        request: `La persona con el id ${idP} no existe en la base de datos`,
+      });
+    }
+
+    res.status(200).json({msj: "Se ha eliminado correctamente"});
+  } catch (error) {
+    return res.status(500).json({
+      msj: error.message
+    });
+  }
+};

@@ -1,17 +1,17 @@
 import express from 'express';
-import { getAll, getOne, postPersonas } from '../controllers/personas.controllers.js';
+import { getAll, getOne, postPersonas, putPersonas, deleteOne } from '../controllers/personas.controllers.js';
 import { verificarToken } from '../security/authorization.js';
 
 const router = express.Router();
 
-router.get('/', verificarToken, getAll);
+router.get('/', getAll);
 
-router.get('/:id', verificarToken, getOne);
+router.get('/:id', getOne);
 
-router.post('/', verificarToken, postPersonas);
+router.post('/', postPersonas);
 
-router.put('/:id');
+router.put('/:id', putPersonas);
 
-router.delete('/:id');
+router.delete('/:id', deleteOne);
 
 export default router;
