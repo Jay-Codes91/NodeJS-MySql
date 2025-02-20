@@ -17,7 +17,12 @@ export const login = async (req, res) => {
     }
 
     const validaClave = await bcrypt.compare(pass, consult.pass);
-    const user = {nombre: consult.nombre};
+    const user = {
+      nombre: consult.nombre,
+      apellido: consult.apellido,
+      role: consult.role
+    };
+    
     if (!validaClave) {
       res.status(400).json({ msj: "Datos incorrectos" });
     } else {
