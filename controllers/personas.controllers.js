@@ -55,7 +55,7 @@ export const postPersonas = async (req, res) => {
     
   } catch (error) {
     return res.status(500).json({
-     error
+     msj: error.message
     });
   }
 }
