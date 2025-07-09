@@ -31,7 +31,7 @@ Persona.init({
         allowNull: false
     },
 
-    role: {
+    rol: {
         type: DataTypes.STRING,
         allowNull: false
     }

@@ -8,7 +8,13 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerDocumentation from './swagger.json' assert {type: 'json'};
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+    "Access-Control-Allow-Origin": '*',
+    "Access-Control-Allow-Credentials": true,
+    'Access-Control-Allow-Methods': 'GET, POST',
+    "Access-Control-Allow-Headers": 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
+  };
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

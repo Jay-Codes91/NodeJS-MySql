@@ -36,7 +36,7 @@ export const getOne = async (req, res) => {
 
 export const postPersonas = async (req, res) => {
   try {
-    const { nombre, apellido, edad, pass, role } = req.body;
+    const { nombre, apellido, edad, pass, rol } = req.body;
     const passEncript = await bcrypt.hash(pass, 10);
     
     const persona = await Persona.create({
@@ -44,7 +44,7 @@ export const postPersonas = async (req, res) => {
       apellido: apellido,
       edad: edad,
       pass: passEncript,
-      role: role
+      rol: rol
     });
     
     const msj = "Persona agregada con éxito";
@@ -63,14 +63,14 @@ export const postPersonas = async (req, res) => {
 export const putPersonas = async (req, res) => {
   try {
     const id = req.params.id;
-    const {nombre, apellido, edad, pass, role} = req.body;
+    const {nombre, apellido, edad, pass, rol} = req.body;
 
     const persona = await Persona.update({
       nombre: nombre,
       apellido: apellido,
       edad: edad,
       pass: pass,
-      role: role
+      rol: rol
     },
     {
       where: {

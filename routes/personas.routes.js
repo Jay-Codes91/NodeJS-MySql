@@ -8,10 +8,16 @@ router.get('/', getAll);
 
 router.get('/:id', getOne);
 
-router.post('/', isAdmin, postPersonas);
+/*router.post('/', isAdmin, postPersonas);
 
 router.put('/:id', isAdmin, putPersonas);
 
-router.delete('/:id', isAdmin, deleteOne);
+router.delete('/:id', isAdmin, deleteOne);*/
+
+router.post('/', postPersonas);
+
+router.put('/:id', putPersonas);
+
+router.delete('/:id', deleteOne);
 
 export default router;

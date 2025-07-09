@@ -3,7 +3,7 @@ import { jwt_key } from '../config.js';
 import { Persona } from '../models/persona.js';
 
 export function generateToken(data){
-   return jwt.sign(data, jwt_key, {expiresIn:'1h'})
+   return jwt.sign(data, jwt_key, {expiresIn:'10h'})
 }
 
 export function verificarToken(req, res, next){
@@ -16,7 +16,7 @@ export function verificarToken(req, res, next){
 
     try{
         const verify = jwt.verify(token, jwt_key);
-         req.role = verify.role;
+         req.rol = verify.rol;
         /*if(verify.nombre != "Mario"){
             res.status(403).json({msj: "No tienes permiso para acceder"});
         }*/
@@ -33,11 +33,11 @@ export async function isAdmin(req, res, next){
 
     const persona = await Persona.findOne({
         where: {
-            role: req.role
+            rol: req.rol
         }
     });
 
-    if(persona.role === "Admin"){
+    if(persona.rol === "Admin"){
         next();
         return;
     }

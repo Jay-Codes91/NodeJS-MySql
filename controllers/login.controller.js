@@ -20,7 +20,7 @@ export const login = async (req, res) => {
     const user = {
       nombre: consult.nombre,
       apellido: consult.apellido,
-      role: consult.role
+      rol: consult.rol
     };
     
     if (!validaClave) {
@@ -28,14 +28,15 @@ export const login = async (req, res) => {
     } else {
       
       const accessToken = generateToken(user);
-
+      
+      
       res.header("Authorization", accessToken).json({
-        msj: 'Usuario Autenticado',
         token: accessToken
       })
 
     }
   } catch (err) {
     res.status(500).json({msj: err.message});
+    return;
   }
 };
